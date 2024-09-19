@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 
-# Create your views here.
+def loginView(req):
+    return render(req, 'logIn.html')
+    
+def signupView(req):
+    return render(req, 'signUp.html')
