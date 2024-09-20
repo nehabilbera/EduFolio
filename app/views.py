@@ -6,3 +6,12 @@ def loginView(req):
     
 def signupView(req):
     return render(req, 'signUp.html')
+
+def homePage(req):
+    return render(req, 'navbar.html')
+
+def viewPage(req):
+    return render(req, 'view.html')
+
+def uploadPage(req):
+    return render(req, 'upload.html')
