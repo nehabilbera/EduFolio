@@ -10,4 +10,6 @@ urlpatterns = [
     path('signup/', views.signupView, name="signup"),
     path('view/', views.viewPage, name='view'),
     path('upload/', views.uploadPage, name="upload"),
+    
+    path('resource_submit/', views.resourceSubmit, name="resource_submit"),
 ]
