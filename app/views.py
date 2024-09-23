@@ -1,9 +1,65 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+
 from .models import Course, Semester, Subject, Resource
 
 def loginView(req):
     return render(req, 'logIn.html')
+
+def userLogin(req):
+    if req.method == "POST":
+        username = req.POST.get("username")
+        passwrd = req.POST.get("password")
+        
+        if not User.objects.filter(username=username).exists():
+            messages.error(req, 'Invalid Username')
+            print("user not exists")
+            return redirect("signup")
+
+        user = authenticate(username=username, password=passwrd)
+        
+        if user is None:
+            messages.error(req, "Wrong password")
+            print("Incorrect password")
+            return redirect("login")
+        
+        login(req, user)
+    return redirect("home")
+
+def logoutPage(req):
+    logout(req)
+    return redirect("home")
+
+def registerPage(req):
+    if req.method == "POST":
+        username = req.POST.get("username")
+        email = req.POST.get("email")
+        password = req.POST.get("password")
+        
+        print(username)
+        print(email)
+        print(password)
+        
+        if User.objects.filter(username=username).exists():
+            messages.error(req, "User already exists")
+            print("user already exists")
+            return redirect("signup")
+        
+        user = User(
+            username=username,email=email
+        )
+        
+        user.set_password(password)
+        user.save()
+        
+        messages.info(req, "Account created Successfully!")
+        return redirect("login")
+        
+    return render("home")
+
     
 def signupView(req):
     return render(req, 'signUp.html')
@@ -69,3 +125,6 @@ def resourceSubmit(req):
         
         
     return render(req, 'upload.html')
+
+def dashboard(req):
+    return redirect("home")
