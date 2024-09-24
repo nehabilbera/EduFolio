@@ -199,7 +199,7 @@ def resourceSubmit(req):
         
         if not validate_data(course,semester,subjectId,subjectName,resourceType,resourceLink):
             messages.error(req, 'Invalid Data')
-            return render(req,'upload,html')
+            return render(req,'upload.html')
 
         
         
