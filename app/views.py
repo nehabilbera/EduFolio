@@ -7,6 +7,20 @@ from django.contrib import messages
 
 from .models import Course, Semester, Subject, Resource
 
+def validate_data(course,semester,subjectId,subjectName,resourceType,resourceLink):
+    courseList = ["MCA","BTECH-CSE","BTECH-ECE","BTECH-EE","BTECH-ME"]
+    
+    if course not in courseList:
+        return False
+    
+    if course == "MCA" and not 1 <= semester <= 6:
+        return False
+    
+    if course != "MCA" and not 1 <= semester <= 8:
+        return False
+
+    return True
+
 def loginView(req):
     return render(req, 'logIn.html')
 
@@ -182,6 +196,11 @@ def resourceSubmit(req):
         print(subjectName)
         print(resourceType)
         print(resourceLink)
+        
+        if not validate_data(course,semester,subjectId,subjectName,resourceType,resourceLink):
+            messages.error(req, 'Invalid Data')
+            return render(req,'upload,html')
+
         
         
     return render(req, 'upload.html')
