@@ -67,36 +67,46 @@
   </head>
   <body>
     <div class="container">
-      <h3 class="mb-4">Course Resources</h3>
-      <table class="table table-bordered">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">SNo</th>
-            <th scope="col">Course</th>
-            <th scope="col">Semester</th>
-            <th scope="col">Subject</th>
-            <th scope="col">Resource</th>
-          </tr>
-        </thead>
-        <tbody>
-            
-            {% for res in resources %}
+      <!-- <h3 class="mb-4">Resources</h3> -->
 
-                <tr>
-                    <th scope="row">{{forloop.counter}}</th>
-                    <td>{{res.subject.semester.course.course_name}}</td>
-                    <td>{{res.subject.semester.semester_number}}</td>
-                    <td>{{res.subject.subject_name}}</td>
-                    <td>
-                        <a target="_blank" href="{{res.resource_link}}">{{res.resource_type}}</a>
-                    </td>
-                </tr>
+      {% if isfound == False %}
+        <span>No data is found!!</span>
+      {% else %}
 
-            {% endfor %}
+        <table class="table table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">SNo</th>
+              <th scope="col">Course</th>
+              <th scope="col">Semester</th>
+              <th scope="col">Subject</th>
+              <th scope="col">Resource</th>
+            </tr>
+          </thead>
+          <tbody>
+              
+              {% for res in resources %}
+
+                  <tr>
+                      <th scope="row">{{forloop.counter}}</th>
+                      <td>{{res.subject.semester.course.course_name}}</td>
+                      <td>{{res.subject.semester.semester_number}}</td>
+                      <td>{{res.subject.subject_name}}</td>
+                      <td>
+                          <a target="_blank" href="{{res.resource_link}}">{{res.resource_type}}</a>
+                      </td>
+                  </tr>
+
+              {% endfor %}
 
 
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+
+      {% endif %}
+
+
+
 
       <div class="col-12 text-center mt-4">
         <a href="{% url 'home' %}"

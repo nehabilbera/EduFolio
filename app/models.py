@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 
@@ -62,6 +63,7 @@ RESOURCES_TYPE_CHOICES = (
 
 # create resources table
 class Resource(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     resource_link = models.CharField(max_length=1000)
     resource_type = models.CharField(max_length=1000, choices=RESOURCES_TYPE_CHOICES)

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Resources</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Custom CSS -->
+    <style>
+      body {
+        background: linear-gradient(to right, #ff6a00, #ee0979);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Arial", sans-serif;
+      }
+
+      .container {
+        background-color: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 100%;
+      }
+
+      .btn {
+        background: linear-gradient(to right, #ff6a00, #ee0979);
+      }
+
+      .form-label {
+        font-weight: bold;
+        color: #555;
+      }
+
+      .form-select {
+        border-radius: 8px;
+      }
+
+      button[type="submit"] {
+        background: linear-gradient(to right, #ff6a00, #ee0979);
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #6a11cb;
+      }
+
+      h2 {
+        text-align: center;
+        color: #2575fc;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <form
+        action="/search_submit/"
+        method="post"
+        id="resource-form"
+        class="row g-3 needs-validation"
+      >
+        {% csrf_token %}
+        <div class="col-md-6">
+          <label for="courseSelect" class="form-label">Course:</label>
+          <select
+            class="form-select"
+            id="courseSelect"
+            onchange="courseChanged()"
+            required
+            name="course"
+          >
+            <option selected disabled value="">--select--</option>
+            <option value="MCA">MCA</option>
+            <option value="BTECH-CSE">Btech-CSE</option>
+            <option value="BTECH-ECE">Btech-ECE</option>
+            <option value="BTECH-ME">Btech-ME</option>
+            <option value="BTECH-EE">Btech-EE</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label for="semesterSelect" class="form-label">Semester:</label>
+          <select
+            class="form-select"
+            id="semesterSelect"
+            onchange="semesterChanged()"
+            required
+            name="semester"
+          >
+            <option selected disabled value="">--select--</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label for="subjectSelect" class="form-label">Subject:</label>
+          <select
+            class="form-select"
+            id="subjectSelect"
+            required
+            name="subject"
+          >
+            <option selected disabled value="">--select--</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label for="resourceTypeSelect" class="form-label"
+            >Resource Type:</label
+          >
+          <select
+            class="form-select"
+            id="resourceTypeSelect"
+            required
+            name="resourceType"
+          >
+            <option selected disabled value="">--select--</option>
+            <option value="ALL">All</option>
+            <option value="PYQ">PYQ</option>
+            <option value="Online Resources">Online Resources</option>
+            <option value="Reading Material">Reading Material</option>
+          </select>
+        </div>
+
+        <div class="col-12 text-center mt-4">
+          <a href="{% url 'home' %}"
+            ><button type="button" class="btn btn-lg btn-success">
+              Back
+            </button></a
+          >
+          <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      // called when course element is selected
+      function courseChanged() {
+        const courseSelectEl = document.getElementById("courseSelect");
+        const semesterSelectEl = document.getElementById("semesterSelect");
+
+        if (courseSelectEl.value === "MCA") {
+          semesterSelectEl.innerHTML = `
+                    <option selected disabled value="">--select--</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                `;
+        } else {
+          semesterSelectEl.innerHTML = `
+                    <option selected disabled value="">--select--</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                `;
+        }
+      }
+
+      // called when semester element is selected
+      function semesterChanged() {
+        const semesterSelectEl = document.getElementById("semesterSelect");
+        const courseSelectEl = document.getElementById("courseSelect");
+        const subjectSelectEl = document.getElementById("subjectSelect");
+
+        // remove this in production
+        {
+          subjectSelectEl.innerHTML = `
+                <option selected disabled value="">--select--</option>
+                <option value="ALL:ALL">All</option>
+                <option value="CS1101:Programming in C">Programming in C (CS1101)</option>
+                <option value="CS1102:Shell Programming">Shell Programming (CS1102)</option>
+            `;
+          return;
+        }
+
+        if (courseSelectEl.value === "MCA") {
+          if (semesterSelectEl.value === "1") {
+            subjectSelectEl.innerHTML = `
+                        <option selected disabled value="">--select--</option>
+                        <option value="ALL:ALL">All</option>
+                        <option value="CS1101">Programming in C (CS1101)</option>
+                        <option value="CS1102">Shell Programming (CS1102)</option>
+                    `;
+          }
+        }
+      }
+
+      // called when form is submitted
+      function submitData() {
+        alert("form is submitted");
+        const courseEl = document.getElementById("courseSelect");
+        const semesterEl = document.getElementById("semesterSelect");
+        const subjectEl = document.getElementById("subjectSelect");
+        const resourceTypeEl = document.getElementById("resourceTypeSelect");
+        const resourceLinkEl = document.getElementById("resourceLink");
+      }
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

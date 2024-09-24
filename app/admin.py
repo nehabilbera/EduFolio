@@ -3,7 +3,7 @@ from .models import Resource, Course, Semester, Subject
 
 @admin.register(Resource)
 class ResourceModelAdmin(admin.ModelAdmin):
-    list_display = ['course_','semester_','subject','resource_type']
+    list_display = ['user','course_','semester_','subject','resource_type']
     def course_(self, obj):
         return obj.subject.semester.course
     def semester_(self, obj):
